@@ -84,7 +84,7 @@ class Money
         raise InvalidCache unless cache
         Rails.logger.info "OERB start read_from_url"
         text = read_from_url
-        Rails.logger.info "OERB end read_from_url"
+        Rails.logger.info "OERB end read_from_url #{text}"
         Rails.logger.info "OERB valid: #{valid_rates?(text)}"
         res = store_in_cache(text) if valid_rates?(text)
         Rails.logger.info "OERB end store_in_cache"
