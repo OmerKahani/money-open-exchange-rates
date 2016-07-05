@@ -81,7 +81,7 @@ class Money
       #
       # @return [Proc,File]
       def save_rates
-        fail InvalidCache unless cache
+        raise InvalidCache unless cache
         Rails.logger.info "OERB start read_from_url"
         text = read_from_url
         Rails.logger.info "OERB end read_from_url"
