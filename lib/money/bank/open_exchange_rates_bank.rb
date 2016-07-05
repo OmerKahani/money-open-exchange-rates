@@ -82,8 +82,13 @@ class Money
       # @return [Proc,File]
       def save_rates
         raise InvalidCache unless cache
+        Rails.logger.info "OERB start read_from_url"
         text = read_from_url
-        store_in_cache(text) if valid_rates?(text)
+        Rails.logger.info "OERB end read_from_url"
+        Rails.logger.info "OERB valid: #{valid_rates?(text)}"
+        res = store_in_cache(text) if valid_rates?(text)
+        Rails.logger.info "OERB end store_in_cache"
+        res
       rescue Errno::ENOENT
         raise InvalidCache
       end
@@ -149,7 +154,9 @@ class Money
       # @param text [String] String to cache
       # @return [String,Integer]
       def store_in_cache(text)
+        Rails.logger.info "OERB start store_in_cache"
         if cache.is_a?(Proc)
+          Rails.logger.info "OERB start cache.call"
           cache.call(text)
         elsif cache.is_a?(String)
           open(cache, 'w') do |f|
